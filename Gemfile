@@ -15,6 +15,7 @@ group :development do
   gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen'
+  gem 'pry-rails'
 end
 
 gem 'mini_racer', platforms: :ruby
