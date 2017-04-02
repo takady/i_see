@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  has_many :answers
+
   enum kind: {
     listening: 1,
     ja_to_en: 2
