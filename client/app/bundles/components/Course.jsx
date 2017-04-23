@@ -60,16 +60,66 @@ class Questions extends React.Component {
         <ul>
           {this.state.data.map(this.renderQuestion)}
         </ul>
-
         <Route path={`${this.props.match.url}/:questionId`} component={Question}/>
       </div>
     );
   }
 }
 
-const Question = ({ match }) => (
+class Question extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: '', answerResult: null};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: '/api/answers',
+      dataType: 'json',
+      type: 'POST',
+      data: {
+        question_id: this.props.match.params.questionId,
+        value: this.state.value,
+      },
+      success: function(answer) {
+        this.setState({answerResult: answer.result});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  }
+
+  render() {
+    if (this.state.answerResult) {
+      return <AnswerResult result={this.state.answerResult}/>;
+    }
+
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <h3>{this.props.match.params.questionId}</h3>
+        <label>
+          Answer:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
+const AnswerResult = ({ result }) => (
   <div>
-    <h3>{match.params.questionId}</h3>
+    <h3>{result}</h3>
   </div>
 );
 
