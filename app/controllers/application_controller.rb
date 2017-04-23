@@ -1,3 +1,8 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  private
+
+  def current_user
+    # TODO make it possible to signin
+    @current_user ||= User.find_by(id: 1)
+  end
 end
