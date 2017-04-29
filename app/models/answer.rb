@@ -7,9 +7,7 @@ class Answer < ApplicationRecord
     incorrect: 1
   }
 
-  def check_answer
-    return if result
-
+  def check_answer!
     correct_answer? ? correct! : incorrect!
   end
 

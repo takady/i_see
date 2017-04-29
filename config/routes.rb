@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :questions, only: :index
-    resources :answers, only: :create
+    resources :answers, only: [:new, :create]
   end
 
   get '*path' => 'root#index'
