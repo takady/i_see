@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
   }
 
   def check_answer!
-    self.value = question_sentence.gsub(/_[_\s]*_/, answer)
+    self.value = question_sentence.gsub(/_[_,.!\s]*_/, answer)
 
     correct_answer? ? correct! : incorrect!
   end
