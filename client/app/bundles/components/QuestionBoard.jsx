@@ -72,7 +72,7 @@ class QuestionBoard extends React.Component {
 
 const Question = ({ question }) => (
   <div>
-    <h4>{question.sentence}</h4>
+    <h4>{`${question.id}: ${question.sentence}`}</h4>
     <h4>{question.question_sentence}</h4>
   </div>
 );
