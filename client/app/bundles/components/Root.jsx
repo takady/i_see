@@ -5,18 +5,18 @@ import {
   Link
 } from 'react-router-dom';
 import Home from './Home';
-import Course from './Course';
+import QuestionBoard from './QuestionBoard';
 
 const Root = () => (
   <Router>
     <div>
       <ul>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/course">Course</Link></li>
+        <li><Link to="/question">Question</Link></li>
       </ul>
 
       <Route exact path="/" component={Home}/>
-      <Route path="/course" component={Course}/>
+      <Route path="/question" component={QuestionBoard}/>
     </div>
   </Router>
 );

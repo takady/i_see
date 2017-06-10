@@ -56,7 +56,6 @@ class QuestionBoard extends React.Component {
     if (this.state.question) {
       return (
         <div>
-          <h3>{this.props.match.params.courseId}</h3>
           <Question question={this.state.question} />
           {this.renderAnswerArea()}
         </div>
@@ -64,7 +63,6 @@ class QuestionBoard extends React.Component {
     } else {
       return (
         <div>
-          <h3>{this.props.match.params.courseId}</h3>
         </div>
       );
     }
