@@ -18,7 +18,7 @@ class Question < ApplicationRecord
     blank_target_index = rand(0..(words.size - 1))
 
     words.map.with_index {|word, index|
-      index.between?(blank_target_index - 1, blank_target_index + 1) ? '_' * word.size : word
+      index.between?(blank_target_index - 1, blank_target_index + 1) ? word.gsub(/[a-zA-Z]/, '_') : word
     }.join(' ')
   end
 end

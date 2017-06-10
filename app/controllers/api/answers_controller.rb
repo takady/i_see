@@ -11,7 +11,7 @@ class Api::AnswersController < ApplicationController
     answer = current_user.answers.build(answer_params.merge(took_msec: took_msec || 0))
     answer.check_answer!
 
-    render json: answer, status: :created
+    render json: answer.as_json.merge(correct_answer: answer.question.correct_answer), status: :created
   end
 
   private
