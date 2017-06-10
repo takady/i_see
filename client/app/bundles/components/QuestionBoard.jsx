@@ -37,7 +37,7 @@ class QuestionBoard extends React.Component {
         started_at: this.state.question.started_at,
       },
       success: function(answer) {
-        this.setState({answerResult: answer.result});
+        this.setState({answerResult: answer});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -100,7 +100,7 @@ class AnswerForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           Answer:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={this.state.value} onChange={this.handleChange} autoFocus={true} />
         </label>
         <input type="submit" value="Submit" />
       </form>
@@ -110,7 +110,7 @@ class AnswerForm extends React.Component {
 
 const AnswerResult = ({ result, getNextQuestion }) => (
   <div>
-    <h3>{result}</h3>
+    <h3>{`${result.result == 'correct' ? "◎" : "×"} ${result.correct_answer}`}</h3>
     <a href='javascript:void(0)' onClick={() => getNextQuestion()}>Next</a>
   </div>
 );
