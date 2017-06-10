@@ -8,4 +8,13 @@ class Question < ApplicationRecord
 
   validates :sentence, :correct_answer, presence: true
   validates :sound_file_url, presence: true, if: -> { listening? }
+
+  def sentence_with_blank
+    words = correct_answer.split(' ')
+    blank_target_index = Random.rand(0..(words.size - 1))
+
+    words.map.with_index {|word, index|
+      index.between?(blank_target_index - 1, blank_target_index + 1) ? '_' * word.size : word
+    }.join(' ')
+  end
 end

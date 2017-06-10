@@ -32,7 +32,8 @@ class QuestionBoard extends React.Component {
       type: 'POST',
       data: {
         question_id: this.state.question.id,
-        value: value,
+        question_sentence: this.state.question.question_sentence,
+        answer: value,
         started_at: this.state.question.started_at,
       },
       success: function(answer) {
@@ -72,6 +73,7 @@ class QuestionBoard extends React.Component {
 const Question = ({ question }) => (
   <div>
     <h4>{question.sentence}</h4>
+    <h4>{question.question_sentence}</h4>
   </div>
 );
 
