@@ -2,7 +2,11 @@ class Api::AnswersController < ApplicationController
   def new
     question = Question.random
 
-    render json: question.as_json.merge(started_at: Time.current, question_sentence: question.sentence_with_blank)
+    render json: question.as_json.merge(
+      started_at: Time.current,
+      first_time: question.for_the_first_time?(current_user),
+      question_sentence: question.for_the_first_time?(current_user) ? question.correct_answer : question.sentence_with_blank
+    )
   end
 
   def create

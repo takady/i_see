@@ -4,9 +4,10 @@ import $ from 'jquery';
 class QuestionBoard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {question: null, answerResult: null};
+    this.state = {question: null, answerResult: null, firstTime: false};
     this.getQuestion = this.getQuestion.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
+    this.skipAnswer = this.skipAnswer.bind(this);
     this.renderAnswerArea = this.renderAnswerArea.bind(this);
 
     this.getQuestion();
@@ -17,7 +18,7 @@ class QuestionBoard extends React.Component {
       url: '/api/answers/new',
       dataType: 'json',
       success: function(question) {
-        this.setState({question: question, answerResult: null});
+        this.setState({question: question, answerResult: null, firstTime: question.first_time});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -45,11 +46,32 @@ class QuestionBoard extends React.Component {
     });
   }
 
+  skipAnswer() {
+    $.ajax({
+      url: '/api/answers',
+      dataType: 'json',
+      type: 'POST',
+      data: {
+        question_id: this.state.question.id,
+        skip: true,
+        started_at: this.state.question.started_at,
+      },
+      success: function() {
+        this.getQuestion();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  }
+
   renderAnswerArea() {
     if (this.state.answerResult) {
       return <AnswerResult result={this.state.answerResult} getNextQuestion={this.getQuestion}/>;
+    } else if (this.state.firstTime) {
+      return <NextButton skipAnswer={this.skipAnswer} />;
     } else {
-      return <AnswerForm getNextQuestion={this.getQuestion} submitAnswer={this.submitAnswer} />;
+      return <AnswerForm submitAnswer={this.submitAnswer} />;
     }
   }
 
@@ -112,6 +134,12 @@ const AnswerResult = ({ result, getNextQuestion }) => (
   <div>
     <h3>{`${result.result == 'correct' ? "◎" : "×"} ${result.correct_answer}`}</h3>
     <a href='javascript:void(0)' onClick={() => getNextQuestion()}>Next</a>
+  </div>
+);
+
+const NextButton = ({ skipAnswer }) => (
+  <div>
+    <a href='javascript:void(0)' onClick={() => skipAnswer()}>Next</a>
   </div>
 );
 
