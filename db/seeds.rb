@@ -10,6 +10,9 @@ require 'csv'
 ApplicationRecord.transaction do
   Answer.delete_all
   Question.delete_all
+  User.delete_all
+
+  User.create(name: 'user_1')
 
   CSV.read(Rails.root.join('source.tsv'), col_sep: "\t").each.with_index(1) {|csv, index|
     Question.create!(id: index, kind: :ja_to_en, sentence: csv.last, correct_answer: csv.first)
