@@ -6,7 +6,8 @@ class Answer < ApplicationRecord
 
   enum result: {
     correct: 0,
-    incorrect: 1
+    incorrect: 1,
+    skip: 2
   }
 
   def check!
