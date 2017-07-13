@@ -9,7 +9,7 @@ class Answer < ApplicationRecord
     incorrect: 1
   }
 
-  def check_answer!
+  def check!
     self.value = question_sentence.gsub(/_[_,.!\s]*_/, answer)
 
     correct_answer? ? correct! : incorrect!
