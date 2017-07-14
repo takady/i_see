@@ -1,5 +1,5 @@
 import React from 'react';
-import $ from 'jquery';
+import axios from 'axios';
 
 class QuestionBoard extends React.Component {
   constructor(props) {
@@ -14,54 +14,37 @@ class QuestionBoard extends React.Component {
   }
 
   getQuestion() {
-    $.ajax({
-      url: '/api/answers/new',
-      dataType: 'json',
-      success: function(question) {
-        this.setState({question: question, answerResult: null, firstTime: question.first_time});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
+    axios.get('/api/answers/new')
+      .then(response => {
+        this.setState({question: response.data, answerResult: null, firstTime: response.data.first_time});
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   submitAnswer(value) {
-    $.ajax({
-      url: '/api/answers',
-      dataType: 'json',
-      type: 'POST',
-      data: {
-        question_id: this.state.question.id,
-        question_sentence: this.state.question.question_sentence,
-        answer: value,
-        started_at: this.state.question.started_at,
-      },
-      success: function(answer) {
-        this.setState({answerResult: answer});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
+    axios.post('/api/answers', {
+      question_id: this.state.question.id,
+      question_sentence: this.state.question.question_sentence,
+      answer: value,
+      started_at: this.state.question.started_at,
+    }).then(response => {
+      this.setState({answerResult: response.data});
+    }).catch(error => {
+      console.error(error);
     });
   }
 
   skipAnswer() {
-    $.ajax({
-      url: '/api/answers',
-      dataType: 'json',
-      type: 'POST',
-      data: {
-        question_id: this.state.question.id,
-        skip: true,
-        started_at: this.state.question.started_at,
-      },
-      success: function() {
-        this.getQuestion();
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
+    axios.post('/api/answers', {
+      question_id: this.state.question.id,
+      skip: true,
+      started_at: this.state.question.started_at,
+    }).then(() => {
+      this.getQuestion();
+    }).catch(error => {
+      console.error(error);
     });
   }
 
