@@ -61,14 +61,14 @@ class QuestionBoard extends React.Component {
   render() {
     if (this.state.question) {
       return (
-        <div>
+        <div className="QuestionBoard">
           <Question question={this.state.question} />
           {this.renderAnswerArea()}
         </div>
       );
     } else {
       return (
-        <div>
+        <div className="QuestionBoard">
         </div>
       );
     }
@@ -76,7 +76,7 @@ class QuestionBoard extends React.Component {
 }
 
 const Question = ({ question }) => (
-  <div>
+  <div className="Question">
     <h4>{`${question.id}: ${question.sentence}`}</h4>
     <h4>{question.question_sentence}</h4>
   </div>
@@ -102,26 +102,28 @@ class AnswerForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Answer:
-          <input type="text" value={this.state.value} onChange={this.handleChange} autoFocus={true} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="AnswerForm">
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Answer:
+            <input type="text" value={this.state.value} onChange={this.handleChange} autoFocus={true} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     );
   }
 }
 
 const AnswerResult = ({ result, getNextQuestion }) => (
-  <div>
+  <div className="AnswerResult">
     <h3>{`${result.result == 'correct' ? "◎" : "×"} ${result.correct_answer}`}</h3>
     <a href='javascript:void(0)' onClick={() => getNextQuestion()}>Next</a>
   </div>
 );
 
 const NextButton = ({ skipAnswer }) => (
-  <div>
+  <div className="NextButton">
     <a href='javascript:void(0)' onClick={() => skipAnswer()}>Next</a>
   </div>
 );
