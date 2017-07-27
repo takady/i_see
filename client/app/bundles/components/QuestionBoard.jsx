@@ -4,7 +4,7 @@ import axios from 'axios';
 class QuestionBoard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {question: null, answerResult: null, firstTime: false};
+    this.state = { question: null, answerResult: null, firstTime: false };
     this.getQuestion = this.getQuestion.bind(this);
     this.submitAnswer = this.submitAnswer.bind(this);
     this.skipAnswer = this.skipAnswer.bind(this);
@@ -15,10 +15,10 @@ class QuestionBoard extends React.Component {
 
   getQuestion() {
     axios.get('/api/answers/new')
-      .then(response => {
-        this.setState({question: response.data, answerResult: null, firstTime: response.data.first_time});
+      .then((response) => {
+        this.setState({ question: response.data, answerResult: null, firstTime: response.data.first_time });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   }
@@ -29,9 +29,9 @@ class QuestionBoard extends React.Component {
       question_sentence: this.state.question.question_sentence,
       answer: value,
       started_at: this.state.question.started_at,
-    }).then(response => {
-      this.setState({answerResult: response.data});
-    }).catch(error => {
+    }).then((response) => {
+      this.setState({ answerResult: response.data });
+    }).catch((error) => {
       console.error(error);
     });
   }
@@ -43,19 +43,18 @@ class QuestionBoard extends React.Component {
       started_at: this.state.question.started_at,
     }).then(() => {
       this.getQuestion();
-    }).catch(error => {
+    }).catch((error) => {
       console.error(error);
     });
   }
 
   renderAnswerArea() {
     if (this.state.answerResult) {
-      return <AnswerResult result={this.state.answerResult} getNextQuestion={this.getQuestion}/>;
+      return <AnswerResult result={this.state.answerResult} getNextQuestion={this.getQuestion} />;
     } else if (this.state.firstTime) {
       return <NextButton skipAnswer={this.skipAnswer} />;
-    } else {
-      return <AnswerForm submitAnswer={this.submitAnswer} />;
     }
+    return <AnswerForm submitAnswer={this.submitAnswer} />;
   }
 
   render() {
@@ -66,12 +65,10 @@ class QuestionBoard extends React.Component {
           {this.renderAnswerArea()}
         </div>
       );
-    } else {
-      return (
-        <div className="QuestionBoard">
-        </div>
-      );
     }
+    return (
+      <div className="QuestionBoard" />
+    );
   }
 }
 
@@ -85,14 +82,14 @@ const Question = ({ question }) => (
 class AnswerForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = { value: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
@@ -106,7 +103,7 @@ class AnswerForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             Answer:
-            <input type="text" value={this.state.value} onChange={this.handleChange} autoFocus={true} />
+            <input type="text" value={this.state.value} onChange={this.handleChange} autoFocus />
           </label>
           <input type="submit" value="Submit" />
         </form>
@@ -117,14 +114,14 @@ class AnswerForm extends React.Component {
 
 const AnswerResult = ({ result, getNextQuestion }) => (
   <div className="AnswerResult">
-    <h3>{`${result.result == 'correct' ? "◎" : "×"} ${result.correct_answer}`}</h3>
-    <a href='javascript:void(0)' onClick={() => getNextQuestion()}>Next</a>
+    <h3>{`${result.result == 'correct' ? '◎' : '×'} ${result.correct_answer}`}</h3>
+    <a href="javascript:void(0)" onClick={() => getNextQuestion()}>Next</a>
   </div>
 );
 
 const NextButton = ({ skipAnswer }) => (
   <div className="NextButton">
-    <a href='javascript:void(0)' onClick={() => skipAnswer()}>Next</a>
+    <a href="javascript:void(0)" onClick={() => skipAnswer()}>Next</a>
   </div>
 );
 
