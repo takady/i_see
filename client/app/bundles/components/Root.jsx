@@ -2,7 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
 } from 'react-router-dom';
 import Home from './Home';
 import QuestionBoard from './QuestionBoard';
@@ -15,8 +15,8 @@ const Root = () => (
         <li><Link to="/question">Question</Link></li>
       </ul>
 
-      <Route exact path="/" component={Home}/>
-      <Route path="/question" component={QuestionBoard}/>
+      <Route exact path="/" component={Home} />
+      <Route path="/question" component={QuestionBoard} />
     </div>
   </Router>
 );
