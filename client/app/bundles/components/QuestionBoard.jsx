@@ -105,9 +105,9 @@ class AnswerForm extends React.Component {
     return (
       <div className="AnswerForm">
         <form onSubmit={this.handleSubmit}>
-          <label>
+          <label htmlFor="answer">
             Answer:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <input id="answer" type="text" value={this.state.value} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />
         </form>
