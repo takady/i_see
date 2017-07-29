@@ -1,5 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import AnswerForm from './AnswerForm';
+import AnswerResult from './AnswerResult';
+import NextButton from './NextButton';
+import Question from './Question';
 
 class QuestionBoard extends React.Component {
   constructor(props) {
@@ -75,58 +79,5 @@ class QuestionBoard extends React.Component {
     );
   }
 }
-
-const Question = ({ question }) => (
-  <div className="Question">
-    <h4>{`${question.id}: ${question.sentence}`}</h4>
-    <h4>{question.question_sentence}</h4>
-  </div>
-);
-
-class AnswerForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: '' };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    this.props.submitAnswer(this.state.value);
-  }
-
-  render() {
-    return (
-      <div className="AnswerForm">
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="answer">
-            Answer:
-            <input id="answer" type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
-    );
-  }
-}
-
-const AnswerResult = ({ result, getNextQuestion }) => (
-  <div className="AnswerResult">
-    <h3>{`${result.result === 'correct' ? '◎' : '×'} ${result.correct_answer}`}</h3>
-    <a href="javascript:void(0)" onClick={() => getNextQuestion()}>Next</a>
-  </div>
-);
-
-const NextButton = ({ skipAnswer }) => (
-  <div className="NextButton">
-    <a href="javascript:void(0)" onClick={() => skipAnswer()}>Next</a>
-  </div>
-);
 
 export default QuestionBoard;
