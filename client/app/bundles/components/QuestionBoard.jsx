@@ -19,7 +19,7 @@ class QuestionBoard extends React.Component {
         this.setState({
           question: response.data,
           answerResult: null,
-          firstTime: response.data.first_time
+          firstTime: response.data.first_time,
         });
       })
       .catch((error) => {
